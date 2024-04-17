@@ -1,0 +1,59 @@
+---
+title: "Data Analytics Workgroup 2024-04-18"
+format: revealjs
+---
+
+## Mapping in R
+
+- What is GIS and why R
+- What packages you will need
+- Reading geospatial data into R
+- Making basic maps
+- Guest presenters
+- Using geospatial functions with your other analytics
+- Q & A
+
+## What is GIS?
+
+Geographic Information Systems
+
+- "a computer-based system to aid in the collection, maintenance, storage, analysis, output, and distribution of spatial data and information."
+- "GIS is concerned with the absolute and relative location of features, as well as the properties and attributes of those features." 
+- Decision support system
+- More than just the hardware and software
+
+## Why R?
+
+- Incorporate mapping and spatial analysis into existing workflows
+- Open source
+- https://r-spatial.org/book/
+
+
+## R packages
+
+- sf
+- mapview
+- fs
+
+## Solar Eclipse Demo
+
+- We are going to look at solar eclipse data from 2023 and 2024 for the United States
+- Data is from NASA but cleaned up by the #tidytuesday project
+- Four solar eclipses in the US in the last two years
+- Two partial, one annular, one total
+
+```{r}
+library(tidyverse)
+
+eclipse_data <- read_csv('data/solar_eclipse_data.csv')
+
+head(eclipse_data) %>% 
+
+```
+
+
+
+
+
+
+
