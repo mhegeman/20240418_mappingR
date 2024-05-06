@@ -1,5 +1,38 @@
+library(cmfs)
+lapply(package_list(), library, character.only = TRUE)
+db <- 'CMFS_prod'
+
+
 library(tidyverse)
 library(here)
+library(sf)
+
+
+
+
+# reading shapefiles ------------------------------------------------------
+
+library(sf)
+
+noaa_stat_area <- st_read("data/ny_nj_ri_inshore_areas_NAD83.shp")
+plot(noaa_stat_area)
+
+
+con <- DBI::dbConnect(odbc::odbc(), db, timeout = 10)
+
+chart_area_qry <- glue::glue("SELECT TOP(100) DATA_LOG_ID, LATD, LATM, LOND, LONM, SUB_AREA_CODE FROM VIEW_VTRS WHERE SUB_AREA_CODE < 300")
+chart_area <- DBI::dbGetQuery(con, chart_area_qry) %>%
+  janitor::clean_names() %>%
+  mutate(y = as.numeric(paste0(latd, ".", latm)),
+         x = as.numeric(paste0('-', lond, ".", lonm))) %>%
+  select(data_log_id, sub_area_code, x, y)
+
+DBI::dbDisconnect(con)
+
+write_csv(chart_area, "data/noaa_chart_area_check.csv")
+
+
+# create eclipse csv ------------------------------------------------------
 
 
 get_eclipse_data <- function() {
@@ -32,5 +65,6 @@ write_csv(eclipse_data, here('data', 'solar_eclipse_data.csv'))
 scatter <- ggplot(eclipse_data, aes(x = lon, y = lat, group = state)) +
   geom_point()
 plot(scatter)
+
 
 

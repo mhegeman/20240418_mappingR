@@ -28,6 +28,71 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="20240418_mappingR_presentation_files/libs/revealjs/dist/theme/quarto.css">
   <link href="20240418_mappingR_presentation_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -338,19 +403,23 @@
 <li>Reading geospatial data into R</li>
 <li>Making basic maps</li>
 <li>Guest presenters</li>
-<li>Using geospatial functions with your other analytics</li>
 <li>Q &amp; A</li>
 </ul>
 </section>
-<section id="what-is-gis" class="slide level2">
-<h2>What is GIS?</h2>
-<p>Geographic Information Systems</p>
+<section id="what-is-a-geographic-information-system-gis" class="slide level2">
+<h2>What is a Geographic Information System (GIS)?</h2>
+<div class="columns">
+<div class="column" style="width:60%;">
 <ul>
 <li>“a computer-based system to aid in the collection, maintenance, storage, analysis, output, and distribution of spatial data and information.”</li>
 <li>“GIS is concerned with the absolute and relative location of features, as well as the properties and attributes of those features.”</li>
 <li>Decision support system</li>
 <li>More than just the hardware and software</li>
 </ul>
+</div><div class="column" style="width:40%;">
+<p><img data-src="assets/gis_fundamentals_cover.jpg"></p>
+</div>
+</div>
 </section>
 <section id="why-r" class="slide level2">
 <h2>Why R?</h2>
@@ -363,17 +432,27 @@
 <section id="r-packages" class="slide level2">
 <h2>R packages</h2>
 <ul>
-<li>sf</li>
-<li>mapview</li>
-<li>fs</li>
+<li><a href="https://r-spatial.github.io/sf/">sf</a></li>
+<li><a href="https://r-spatial.github.io/mapview/">mapview</a></li>
 </ul>
 </section>
-<section id="solar-eclipse-demo" class="slide level2">
-<h2>Solar Eclipse Demo</h2>
-<ul>
-<li>We are going to look at solar eclipse data from 2023 and 2024 for the United States</li>
-<li>Data is from NASA but cleaned up by the #tidytuesday project</li>
-</ul>
+<section id="read-data" class="slide level2">
+<h2>Read data</h2>
+<p>CSV</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(sf)</span>
+<span id="cb1-3"><a href="#cb1-3"></a></span>
+<span id="cb1-4"><a href="#cb1-4"></a>f <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">'data'</span>, <span class="st">'noaa_chart_area_check.csv'</span>)</span>
+<span id="cb1-5"><a href="#cb1-5"></a></span>
+<span id="cb1-6"><a href="#cb1-6"></a>points <span class="ot">&lt;-</span> <span class="fu">read_sf</span>(f, <span class="at">options=</span><span class="fu">c</span>(<span class="st">"X_POSSIBLE_NAMES=x"</span>,<span class="st">"Y_POSSIBLE_NAMES=y"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Shapefile</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb2-2"><a href="#cb2-2"></a></span>
+<span id="cb2-3"><a href="#cb2-3"></a>noaa_stat_area <span class="ot">&lt;-</span> <span class="fu">read_sf</span>(<span class="st">"data/ny_nj_ri_inshore_areas_NAD83.shp"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="resources" class="slide level2">
+<h2>Resources</h2>
+<p>https://ucd-cws.github.io/CABW2020_R_training/m2_3_using_sf.html</p>
 <div class="footer footer-default">
 
 </div>
@@ -589,44 +668,6 @@
         ]
       });
     </script>
-    
-    <script>
-      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
-      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
-      // slide changes (different for each slide format).
-      (function () {
-        // dispatch for htmlwidgets
-        function fireSlideEnter() {
-          const event = window.document.createEvent("Event");
-          event.initEvent("slideenter", true, true);
-          window.document.dispatchEvent(event);
-        }
-
-        function fireSlideChanged(previousSlide, currentSlide) {
-          fireSlideEnter();
-
-          // dispatch for shiny
-          if (window.jQuery) {
-            if (previousSlide) {
-              window.jQuery(previousSlide).trigger("hidden");
-            }
-            if (currentSlide) {
-              window.jQuery(currentSlide).trigger("shown");
-            }
-          }
-        }
-
-        // hookup for slidy
-        if (window.w3c_slidy) {
-          window.w3c_slidy.add_observer(function (slide_num) {
-            // slide_num starts at position 1
-            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
-          });
-        }
-
-      })();
-    </script>
-
     <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {

@@ -5,51 +5,56 @@ format: revealjs
 
 ## Mapping in R
 
-- What is GIS and why R
-- What packages you will need
-- Reading geospatial data into R
-- Making basic maps
-- Guest presenters
-- Using geospatial functions with your other analytics
-- Q & A
+-   What is GIS and why R
+-   What packages you will need
+-   Reading geospatial data into R
+-   Making basic maps
+-   Guest presenters
+-   Q & A
 
-## What is GIS?
+## What is a Geographic Information System (GIS)?
 
-Geographic Information Systems
+::: columns
+::: {.column width="60%"}
 
-- "a computer-based system to aid in the collection, maintenance, storage, analysis, output, and distribution of spatial data and information."
-- "GIS is concerned with the absolute and relative location of features, as well as the properties and attributes of those features." 
-- Decision support system
-- More than just the hardware and software
+-   "a computer-based system to aid in the collection, maintenance, storage, analysis, output, and distribution of spatial data and information."
+-   "GIS is concerned with the absolute and relative location of features, as well as the properties and attributes of those features."
+-   Decision support system
+-   More than just the hardware and software
+:::
+
+::: {.column width="40%"}
+![](assets/gis_fundamentals_cover.jpg)
+:::
+:::
 
 ## Why R?
 
-- Incorporate mapping and spatial analysis into existing workflows
-- Open source
-- https://r-spatial.org/book/
-
+-   Incorporate mapping and spatial analysis into existing workflows
+-   Open source
+-   https://r-spatial.org/book/
 
 ## R packages
 
-- sf
-- mapview
-- fs
+-   [sf](https://r-spatial.github.io/sf/)
+-   [mapview](https://r-spatial.github.io/mapview/)
 
-## Solar Eclipse Demo
+## Read data
 
-- We are going to look at solar eclipse data from 2023 and 2024 for the United States
-- Data is from NASA but cleaned up by the #tidytuesday project
-- Four solar eclipses in the US in the last two years
-- Two partial, one annular, one total
+CSV
 
-```{r}
-library(tidyverse)
+Shapefile
 
-eclipse_data <- read_csv('data/solar_eclipse_data.csv')
 
-head(eclipse_data) %>% 
 
-```
+
+
+
+
+
+## Resources
+
+https://ucd-cws.github.io/CABW2020_R_training/m2_3_using_sf.html
 
 
 
